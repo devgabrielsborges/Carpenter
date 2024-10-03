@@ -21,6 +21,6 @@ def get_jobrapido() -> list:
             link=job_attributes['openAdvertUrl'],
         )
 
-        jobs.append (job)
+        jobs.append(job)
 
     return jobs
