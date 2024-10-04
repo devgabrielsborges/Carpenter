@@ -1,13 +1,13 @@
-import pandas as pd
 import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
-from commons import set_job_range
+from commons import set_job_range, export_jobs_to_csv
+from classes import Job
 
 
-def extract_job_details(titles, locations, companies, index):
+def extract_job_details(titles: list, locations: list, companies: list, index: int) -> (str, str, str):
     try:
         title = titles[index].text.replace("/", ", ")
         location = locations[index].text
@@ -55,7 +55,8 @@ def get_glassdoor(search: str) -> list:
                 details_button = wait.until(ec.element_to_be_clickable((By.CLASS_NAME, 'JobDetails_showMore___Le6L')))
                 details_button.click()
                 details = wait.until(ec.presence_of_element_located((By.XPATH, '//*[@id="app-navigation"]/div[4]/div[2]/div[2]/div/div[1]')))
-                jobs_list.append([title, company, location, details.text])
+                _job = Job(title=title, company=company, location=location, description=details.text)
+                jobs_list.append(_job)
             except TimeoutException as error:
                 with open("logs.txt", "a") as logs:
                     logs.write(f"Error finding details: {error}\n")
@@ -76,6 +77,5 @@ def get_glassdoor(search: str) -> list:
 
 
 if __name__ == "__main__":
-    search_test = "Flask"
-    df = pd.DataFrame(get_glassdoor(search_test))
-    df.to_csv(f"jobsData/glassdoor_{str(search_test).strip()}.csv", index=False)
+    search_test = "Golang"
+    export_jobs_to_csv(search_test, get_glassdoor(search_test))

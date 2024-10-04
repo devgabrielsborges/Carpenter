@@ -2,25 +2,35 @@ import requests
 import json
 from bs4 import BeautifulSoup
 from classes import *
+from commons import export_jobs_to_csv
 
-def get_jobrapido() -> list:
+
+def get_jobrapido(search: str) -> list:
     jobs = []
-    html_body = str(requests.get("https://br.jobrapido.com/?w=python").content).replace("\\", "")
-    soup = BeautifulSoup(html_body, "html.parser")
 
-    possible_jobs = soup.find_all("div", {"class": "result-item js-result-item"})
+    for index in range(1, 30):
+        html_body = str(
+            requests.get(f"https://br.jobrapido.com/Vagas-de-Emprego-para-{search}?p={index}").content
+        ).replace("\\", "")
 
-    for i in range(len(possible_jobs)):
-        jobs_str = possible_jobs[i].attrs['data-advert']
-        job_attributes = json.loads(jobs_str)
+        soup = BeautifulSoup(html_body, "html.parser")
+        possible_jobs = soup.find_all("div", {"class": "result-item js-result-item"})
 
-        job = Job(
-            title=job_attributes['title'],
-            company=job_attributes['company'],
-            location=job_attributes['location'],
-            link=job_attributes['openAdvertUrl'],
-        )
+        for i in range(len(possible_jobs)):
+            jobs_str = possible_jobs[i].attrs['data-advert']
+            job_attributes = json.loads(jobs_str)
 
-        jobs.append(job)
+            job = Job(
+                title=job_attributes['title'],
+                company=job_attributes['company'],
+                location=job_attributes['location'],
+                link=job_attributes['openAdvertUrl'],
+            )
+
+            jobs.append(job)
 
     return jobs
+
+if __name__ == "__main__":
+    search_test = "Flask"
+    export_jobs_to_csv(search_test, get_jobrapido(search_test))
