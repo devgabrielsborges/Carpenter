@@ -24,11 +24,11 @@ def close_popup(wait):
         pass
 
 def get_glassdoor(search: str) -> list:
-    jobs_list = [["Title", "Company", "Type / Location", "Description"]]
+    jobs_list = []
     total_scraped_jobs = 0
 
     driver = uc.Chrome()
-    driver.get(f"https://www.glassdoor.com.br/Vaga/brasil-{search}     --vagas-SRCH_IL.0,6_IN36_KO7,17.htm")
+    driver.get(f"https://www.glassdoor.com.br/Vaga/brasil-{search}-vagas-SRCH_IL.0,6_IN36_KO7,21.htm")
     wait = WebDriverWait(driver, 15)
 
     job_quantity_text = wait.until(ec.presence_of_element_located((By.XPATH, '//*[@id="left-column"]/div[1]/h1'))).text
@@ -77,5 +77,5 @@ def get_glassdoor(search: str) -> list:
 
 
 if __name__ == "__main__":
-    search_test = "Golang"
-    export_jobs_to_csv(search_test, get_glassdoor(search_test))
+    search_test = "estágio C#"
+    export_jobs_to_csv("Glassdoor", search_test, get_glassdoor(search_test.replace(" ", "-")))

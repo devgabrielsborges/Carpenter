@@ -1,23 +1,27 @@
-import requests
+import aiohttp
+import asyncio
 import json
 from bs4 import BeautifulSoup
-from classes import *
+from classes import Job
 from commons import export_jobs_to_csv
 
 
-def get_jobrapido(search: str) -> list:
-    jobs = []
+async def fetch_page(session, url: str) -> str:
+    async with session.get(url) as response:
+        return await response.text()
 
-    for index in range(1, 30):
-        html_body = str(
-            requests.get(f"https://br.jobrapido.com/Vagas-de-Emprego-para-{search}?p={index}").content
-        ).replace("\\", "")
+
+async def get_jobrapido_page(search: str, page: int) -> list:
+    jobs = []
+    url = f"https://br.jobrapido.com/Vagas-de-Emprego-para-{search}?p={page}"
+    async with aiohttp.ClientSession() as session:
+        html_body = await fetch_page(session, url)
 
         soup = BeautifulSoup(html_body, "html.parser")
         possible_jobs = soup.find_all("div", {"class": "result-item js-result-item"})
 
-        for i in range(len(possible_jobs)):
-            jobs_str = possible_jobs[i].attrs['data-advert']
+        for job_element in possible_jobs:
+            jobs_str = job_element.attrs['data-advert']
             job_attributes = json.loads(jobs_str)
 
             job = Job(
@@ -28,9 +32,19 @@ def get_jobrapido(search: str) -> list:
             )
 
             jobs.append(job)
+    return jobs
 
+
+async def get_jobrapido(search: str) -> list:
+    tasks = []
+    for page in range(1, 20):
+        tasks.append(get_jobrapido_page(search, page))
+
+    results = await asyncio.gather(*tasks)
+    jobs = [job for sublist in results for job in sublist]
     return jobs
 
 if __name__ == "__main__":
-    search_test = "Flask"
-    export_jobs_to_csv(search_test, get_jobrapido(search_test))
+    search_test = "Python Estágio"
+    jobs = asyncio.run(get_jobrapido(search_test))
+    export_jobs_to_csv("Jobrapido", search_test, jobs)
