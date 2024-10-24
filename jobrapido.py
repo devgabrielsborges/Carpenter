@@ -45,6 +45,6 @@ async def get_jobrapido(search: str) -> list:
     return jobs
 
 if __name__ == "__main__":
-    search_test = "Python Estágio"
+    search_test = "Web Scraping"
     jobs = asyncio.run(get_jobrapido(search_test))
     export_jobs_to_csv("Jobrapido", search_test, jobs)

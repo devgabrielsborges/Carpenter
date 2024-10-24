@@ -77,5 +77,5 @@ def get_glassdoor(search: str) -> list:
 
 
 if __name__ == "__main__":
-    search_test = "estágio C#"
+    search_test = "DevOps"
     export_jobs_to_csv("Glassdoor", search_test, get_glassdoor(search_test.replace(" ", "-")))
