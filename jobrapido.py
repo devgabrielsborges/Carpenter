@@ -43,8 +43,3 @@ async def get_jobrapido(search: str) -> list:
     results = await asyncio.gather(*tasks)
     jobs = [job for sublist in results for job in sublist]
     return jobs
-
-if __name__ == "__main__":
-    search_test = "Web Scraping"
-    jobs = asyncio.run(get_jobrapido(search_test))
-    export_jobs_to_csv("Jobrapido", search_test, jobs)
