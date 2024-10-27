@@ -1,10 +1,11 @@
 import undetected_chromedriver as uc
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException, StaleElementReferenceException
-from commons import set_job_range, export_jobs_to_csv
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
+
 from classes import Job
+from commons import set_job_range
 
 
 def extract_job_details(titles: list, locations: list, companies: list, index: int) -> (str, str, str):

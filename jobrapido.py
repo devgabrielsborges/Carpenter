@@ -1,9 +1,10 @@
-import aiohttp
 import asyncio
 import json
+
+import aiohttp
 from bs4 import BeautifulSoup
+
 from classes import Job
-from commons import export_jobs_to_csv
 
 
 async def fetch_page(session, url: str) -> str:
