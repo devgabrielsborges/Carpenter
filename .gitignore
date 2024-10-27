@@ -3,6 +3,5 @@ tests.ipynb
 jobs/
 jobsData/
 logs.txt
-cli.py
 __pycache__/
 build/
