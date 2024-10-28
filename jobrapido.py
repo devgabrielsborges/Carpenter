@@ -1,6 +1,6 @@
 import asyncio
 import json
-
+import re
 import aiohttp
 from bs4 import BeautifulSoup
 
@@ -26,7 +26,7 @@ async def get_jobrapido_page(search: str, page: int) -> list:
             job_attributes = json.loads(jobs_str)
 
             job = Job(
-                title=job_attributes['title'],
+                title=re.sub(re.compile(r'<.*?>'), '', job_attributes['title']),   # exclude tags
                 company=job_attributes['company'],
                 location=job_attributes['location'],
                 link=job_attributes['openAdvertUrl'],
