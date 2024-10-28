@@ -26,7 +26,7 @@ if __name__ == "__main__":
         commons.export_jobs_to_csv("Jobrapido", search_test, jobs)
         print(f"Exported {len(jobs)} jobs to CSV in jobsData/Jobrapido/{search_test}.csv")
     elif choice == "glassdoor":
-        glassdoor.export_jobs_to_csv("Glassdoor", search_test,
+        commons.export_jobs_to_csv("Glassdoor", search_test,
         glassdoor.get_glassdoor(search_test.replace(" ", "-")))
         print(f"Exported jobs to CSV in jobsData/Glassdoor/{search_test}")
     else:
