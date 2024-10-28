@@ -10,7 +10,7 @@ This project is a job scraping tool that extracts job listings from Jobrapido an
 
 ## Requirements
 
-- Python 3.x
+- Python 3.10
 - `pip` for managing Python packages
 - Chrome installed on your PC
 - Chrome driver installed on your PC
