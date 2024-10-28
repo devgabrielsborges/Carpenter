@@ -27,7 +27,7 @@ This project is a job scraping tool that extracts job listings from Jobrapido an
     pip install -r requirements.txt
     ```
 
-3. Download the Chrome driver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads) and ensure it is in your system's PATH.
+3. Download the Chrome driver from [here](https://googlechromelabs.github.io/chrome-for-testing/) and ensure it is in your system's PATH.
 
 ## Usage
 
