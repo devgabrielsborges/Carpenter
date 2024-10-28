@@ -12,6 +12,7 @@ This project is a job scraping tool that extracts job listings from Jobrapido an
 
 - Python 3.x
 - `pip` for managing Python packages
+- Chrome installed on your PC
 - Chrome driver installed on your PC
 
 ## Installation
