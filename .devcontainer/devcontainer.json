@@ -1,0 +1,42 @@
+{
+    "name": "Dev Container",
+    "image": "python:3.12",
+    "features": {
+        "node": "18"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "ms-azuretools.vscode-docker",
+                "ms-vscode-remote.remote-containers",
+                "ms-vscode-remote.remote-ssh",
+                "ms-vscode-remote.remote-ssh-edit",
+                "ms-vscode-remote.remote-wsl",
+                "ms-vscode-remote.vscode-remote-extensionpack",
+                "visualstudioexptteam.vscodeintellicode",
+                "waderyan.gitblame",
+                "ms-python.flake8"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "editor.formatOnSave": true,
+                "files.autoSave": "onFocusChange"
+            },
+            "postCreateCommand": "pip install -r requirements.txt",
+            "forwardPorts": [5000],
+            "portsAttributes": {
+                "5000": {
+                    "label": "Dev Container"
+                }
+
+            },
+            "mounts": [
+                "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+            ],
+            "remoteUser": "root"
+        }
+    }
+}
