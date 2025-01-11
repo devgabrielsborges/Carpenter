@@ -3,6 +3,7 @@ import os
 import re
 from classes import Job
 
+
 def set_job_range(raw_job_quantity: str) -> int:
     raw_job_quantity = raw_job_quantity.replace(".", "").replace("/", "")
     num_pattern = re.compile(r"(\d+)")
@@ -12,7 +13,7 @@ def set_job_range(raw_job_quantity: str) -> int:
     return int(job_quantity)
 
 
-def export_jobs_to_csv(site: str, search_name: str, jobs: [Job]):
+def export_jobs_to_excel(site: str, search_name: str, jobs: [Job]):
     if not os.path.exists(site):
         os.makedirs(f"jobsData/{site}", exist_ok=True)
-        pd.DataFrame(jobs).to_csv(f"jobsData/{site}/{str(search_name).strip()}.csv", index=False)
+        pd.DataFrame(jobs).to_excel(f"jobsData/{site}/{str(search_name).strip()}.xlsx", index=False)

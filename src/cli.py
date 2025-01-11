@@ -23,10 +23,10 @@ if __name__ == "__main__":
 
     if choice == "jobrapido":
         jobs = asyncio.run(jobrapido.get_jobrapido(search_test))
-        commons.export_jobs_to_csv("Jobrapido", search_test, jobs)
+        commons.export_jobs_to_excel("Jobrapido", search_test, jobs)
         print(f"Exported {len(jobs)} jobs to CSV in jobsData/Jobrapido/{search_test}.csv")
     elif choice == "glassdoor":
-        commons.export_jobs_to_csv("Glassdoor", search_test,
+        commons.export_jobs_to_excel("Glassdoor", search_test,
         glassdoor.get_glassdoor(search_test.replace(" ", "-")))
         print(f"Exported jobs to CSV in jobsData/Glassdoor/{search_test}")
     else:
