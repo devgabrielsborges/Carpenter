@@ -173,3 +173,6 @@ cython_debug/
 
 .idea
 jobsData/
+
+prompt.txt
+response.txt
