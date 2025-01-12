@@ -17,3 +17,9 @@ def export_jobs_to_excel(site: str, search_name: str, jobs: [Job]):
     if not os.path.exists(site):
         os.makedirs(f"jobsData/{site}", exist_ok=True)
         pd.DataFrame(jobs).to_excel(f"jobsData/{site}/{str(search_name).strip()}.xlsx", index=False)
+
+
+def get_prompt_msg() -> str:
+    if os.path.exists("prompet.txt"):
+        with open("prompet.txt", "r", encoding="UTF8") as file:
+            return str(file.read())

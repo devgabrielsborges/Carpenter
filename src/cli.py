@@ -1,6 +1,9 @@
-from sys import argv, exit
-import jobrapido, glassdoor, commons
+import os
 import asyncio
+import jobrapido, glassdoor, commons
+from sys import argv, exit
+from dotenv import load_dotenv
+from groq_ import GroqCloud
 
 
 '''
@@ -21,14 +24,39 @@ if __name__ == "__main__":
         exit(1)
     choice = argv[2].strip().lower() if len(argv) > 2 else None
 
+    load_dotenv()
+
     if choice == "jobrapido":
         jobs = asyncio.run(jobrapido.get_jobrapido(search_test))
         commons.export_jobs_to_excel("Jobrapido", search_test, jobs)
+
         print(f"Exported {len(jobs)} jobs to CSV in jobsData/Jobrapido/{search_test}.csv")
+
     elif choice == "glassdoor":
-        commons.export_jobs_to_excel("Glassdoor", search_test,
-        glassdoor.get_glassdoor(search_test.replace(" ", "-")))
+        commons.export_jobs_to_excel(
+            "Glassdoor",
+            search_test,
+            glassdoor.get_glassdoor(search_test.replace(" ", "-"))
+        )
+
         print(f"Exported jobs to CSV in jobsData/Glassdoor/{search_test}")
     else:
         print("Invalid choice")
         exit(1)
+
+
+    prompt_message = os.getenv("BASE_PROMPT")
+    for num, job in enumerate(jobs):
+        if num > 16:
+            break
+        prompt_message += str(job)
+
+    chat = GroqCloud(
+        "You are an excellent tweet promoter",
+        0.7
+    )
+
+    response = chat.request(prompt_message)
+
+    with open("response.txt", "w", encoding="UTF8") as file:
+        file.write(response)

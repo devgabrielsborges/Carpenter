@@ -42,5 +42,5 @@ async def get_jobrapido(search: str) -> list:
         tasks.append(get_jobrapido_page(search, page))
 
     results = await asyncio.gather(*tasks)
-    jobs = [job for sublist in results for job in sublist]
+    jobs = [job for sublist in results for job in sublist if job not in results]
     return jobs
