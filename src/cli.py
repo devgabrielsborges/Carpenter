@@ -4,6 +4,7 @@ import jobrapido, glassdoor, commons
 from sys import argv, exit
 from dotenv import load_dotenv
 from groq_ import GroqCloud
+from email_service import EmailService
 
 
 '''
@@ -44,7 +45,6 @@ if __name__ == "__main__":
         print("Invalid choice")
         exit(1)
 
-
     prompt_message = os.getenv("BASE_PROMPT")
     for num, job in enumerate(jobs):
         if num > 16:
@@ -57,6 +57,9 @@ if __name__ == "__main__":
     )
 
     response = chat.request(prompt_message)
+    email = EmailService(os.getenv("USER_EMAIL"), os.getenv("USER_PASSWORD"))
+
+    email.send_email(os.getenv("TO"), response, response.splitlines()[0])
 
     with open("response.txt", "w", encoding="UTF8") as file:
         file.write(response)
