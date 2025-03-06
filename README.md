@@ -1,6 +1,6 @@
 # Carpenter: Job Scraper
 
-This project is a job scraping tool that extracts job listings from Jobrapido and Glassdoor. It allows users to search for job titles and export the results to CSV files.
+Carpenter is a job scraping tool that extracts job listings from Jobrapido and Glassdoor. It allows users to search for job titles and export the results to CSV files. 
 
 ## Features
 
