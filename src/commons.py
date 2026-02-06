@@ -18,16 +18,18 @@ def set_job_range(raw_job_quantity: str) -> int:
 
 def _sanitize_filename(raw_name: str) -> str:
     cleaned = re.sub(r"[^A-Za-z0-9._-]+", "_", raw_name).strip("._")
+    while ".." in cleaned:
+        cleaned = cleaned.replace("..", "_")
     return cleaned or "jobs"
 
 
 def export_jobs_to_excel(site: str, search_name: str, jobs: [Job]):
     base_dir = Path("jobsData") / site
     base_dir.mkdir(parents=True, exist_ok=True)
-    safe_name = _sanitize_filename(str(search_name).strip())
+    safe_name = _sanitize_filename(search_name.strip())
     file_path = (base_dir / f"{safe_name}.xlsx").resolve()
     base_dir_resolved = base_dir.resolve()
-    if base_dir_resolved not in file_path.parents:
+    if not file_path.is_relative_to(base_dir_resolved):
         raise ValueError("Invalid search name for output file.")
     pd.DataFrame(jobs).to_excel(file_path, index=False)
 
