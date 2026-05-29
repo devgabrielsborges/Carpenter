@@ -59,7 +59,7 @@ langchain-groq==0.2.3
 langsmith==0.2.10
 MarkupSafe==2.1.5
 matplotlib-inline==0.1.7
-mistune==3.0.2
+mistune==3.2.1
 multidict==6.1.0
 nbclient==0.10.0
 nbconvert==7.16.4
